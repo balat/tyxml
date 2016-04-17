@@ -27,6 +27,10 @@ Flag ppx
   Description: Build the ppx syntax extension.
   Default: true
 
+Flag mustache
+  Description: Build the mustache syntax extension.
+  Default: true
+
 Library tyxml
   FindlibName: tyxml
   Path: implem
@@ -159,6 +163,36 @@ Executable ppx_reflect
   Path: ppx
   MainIs: ppx_reflect.ml
   BuildDepends: ppx_tools.metaquot, tyxml.tools
+  CompiledObject: best
+
+## Template
+
+Library ppx_mustache
+  Build$: flag(ppx) && flag(mustache)
+  Install$: flag(ppx) && flag(mustache)
+  FindlibName: mustache
+  FindlibParent: ppx
+  InternalModules: Ppx_tyxml_empty
+  Path: ppx
+  XMETADescription:
+    Well typed templates for HTML and SVG (ppx)
+  XMETARequires: tyxml
+  XMETAExtraLines: ppx = "ppx_tyxml_mustache"
+
+Executable ppx_tyxml_mustache
+  Build$: flag(ppx) && flag(mustache)
+  Install$: flag(ppx) && flag(mustache)
+  Path: mustache
+  MainIs: ppx_tyxml_mustache.ml
+  BuildDepends: tyxml.ppx.internal, mustache
+  CompiledObject: best
+
+Executable tymustache
+  Build$: flag(ppx) && flag(mustache)
+  Install$: flag(ppx) && flag(mustache)
+  Path: mustache
+  MainIs: tymustache.ml
+  BuildDepends: tyxml.ppx.internal, mustache
   CompiledObject: best
 
 ## Tests
