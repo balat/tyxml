@@ -25,6 +25,7 @@
 *)
 
 val markup_to_expr :
+  ?simplify:bool ->
   Ppx_common.lang ->
   Location.t -> Parsetree.expression list -> Parsetree.expression
 (** Given the payload of a [%html ...] or [%svg ...] expression,
